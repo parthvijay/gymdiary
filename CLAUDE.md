@@ -60,15 +60,4 @@ Uses **Clerk** (`@clerk/nextjs`) for authentication:
 
 ## Accessibility (MANDATORY)
 
-Every component and page MUST be fully accessible. These rules are non-negotiable and apply to ALL code written in this project:
-
-1. **Every form control MUST have a label.** Use the shadcn/ui `Label` component with `htmlFor`/`id` on every `Input`, `Select`, `Textarea`, `Switch`, `Checkbox`, and `RadioGroup`. If a visible label is not appropriate, use `sr-only` class. Never leave a form control unlabelled.
-2. **Every `<img>` and `<Image>` MUST have an `alt` attribute.** Use descriptive text for meaningful images, `alt=""` for decorative ones.
-3. **Every icon-only button MUST have `aria-label`.** If a `Button` contains only an icon and no visible text, it requires `aria-label` describing its action.
-4. **Use semantic HTML.** Use `<nav>`, `<main>`, `<section>`, `<article>`, `<header>`, `<footer>`, `<h1>`–`<h6>` appropriately. Do not use `<div>` or `<span>` for interactive elements.
-5. **Sections and landmark regions MUST have labels.** Use `aria-label` or `aria-labelledby` on `<section>`, `<nav>`, and other landmark elements.
-6. **Never remove focus indicators.** Do not override or hide focus-visible styles provided by shadcn/ui.
-7. **All interactive elements MUST be keyboard accessible.** Do not add `tabIndex="-1"` to interactive elements. Do not use `onClick` on non-interactive elements like `<div>` or `<span>` — use `<button>` or `<a>` instead.
-8. **Use ARIA attributes for dynamic content.** Loading states need `aria-busy="true"`. Live updates need `aria-live`. Expanded/collapsed sections need `aria-expanded`.
-9. **Maintain sufficient color contrast.** Use shadcn/ui theme tokens. Do not override colors with values that fail WCAG AA contrast (4.5:1 for text, 3:1 for large text/UI).
-10. **Pages MUST have a single `<h1>` and headings must not skip levels.** Use `<h1>` → `<h2>` → `<h3>` in order.
+Every component and page MUST be fully accessible. See `docs/ui.md` for complete accessibility rules — they are non-negotiable.

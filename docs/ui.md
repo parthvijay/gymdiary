@@ -13,18 +13,21 @@ This project uses **shadcn/ui** as its sole UI component library. All UI must be
 5. **Compose, don't create.** Build pages and features by composing shadcn/ui components together. Combine `Card`, `Button`, `Input`, `Dialog`, etc. directly in your page/layout files.
 6. **No third-party UI libraries.** Do not install or use any other component library (e.g., Material UI, Chakra, Ant Design, Radix primitives directly). shadcn/ui already wraps Radix — use it through shadcn/ui.
 
-### Accessibility (a11y)
+### Accessibility (MANDATORY)
 
-All UI must be accessible. shadcn/ui components are built on Radix primitives which provide accessibility out of the box — preserve that by following these rules:
+Every component and page MUST be fully accessible. These rules are non-negotiable and apply to ALL code written in this project. shadcn/ui components are built on Radix primitives which provide accessibility out of the box — preserve that by following these rules:
 
-1. **Always provide labels for inputs.** Use the shadcn/ui `Label` component and associate it with every `Input`, `Select`, `Textarea`, etc. via `htmlFor`/`id`. Never leave a form control without a visible or `sr-only` label.
-2. **Use semantic HTML elements.** Rely on the semantic elements that shadcn/ui provides (`<button>`, `<dialog>`, `<nav>`, etc.). Do not override them with generic `<div>` or `<span>` elements.
-3. **Include alt text for all images.** Every `<img>` and `<Image>` must have a descriptive `alt` attribute. Decorative images should use `alt=""`.
-4. **Maintain keyboard navigation.** All interactive elements must be reachable and operable via keyboard. Do not add `tabIndex="-1"` to interactive elements or suppress focus styles.
-5. **Preserve focus indicators.** Do not remove or hide focus rings. shadcn/ui provides built-in focus-visible styles — leave them intact.
-6. **Use ARIA attributes when needed.** If composing components in a way that creates a custom interaction pattern, add appropriate `aria-label`, `aria-describedby`, `aria-live`, or `role` attributes.
-7. **Ensure sufficient color contrast.** Use the shadcn/ui theme tokens which are designed for WCAG AA contrast. Do not override colors with low-contrast values.
-8. **Test with keyboard and screen reader.** All pages should be navigable with keyboard alone and produce a logical reading order for screen readers.
+1. **Every form control MUST have a label.** Use the shadcn/ui `Label` component with `htmlFor`/`id` on every `Input`, `Select`, `Textarea`, `Switch`, `Checkbox`, and `RadioGroup`. If a visible label is not appropriate, use `sr-only` class. Never leave a form control unlabelled.
+2. **Every `<img>` and `<Image>` MUST have an `alt` attribute.** Use descriptive text for meaningful images, `alt=""` for decorative ones.
+3. **Every icon-only button MUST have `aria-label`.** If a `Button` contains only an icon and no visible text, it requires `aria-label` describing its action.
+4. **Use semantic HTML.** Use `<nav>`, `<main>`, `<section>`, `<article>`, `<header>`, `<footer>`, `<h1>`–`<h6>` appropriately. Do not use `<div>` or `<span>` for interactive elements.
+5. **Sections and landmark regions MUST have labels.** Use `aria-label` or `aria-labelledby` on `<section>`, `<nav>`, and other landmark elements.
+6. **Never remove focus indicators.** Do not override or hide focus-visible styles provided by shadcn/ui.
+7. **All interactive elements MUST be keyboard accessible.** Do not add `tabIndex="-1"` to interactive elements. Do not use `onClick` on non-interactive elements like `<div>` or `<span>` — use `<button>` or `<a>` instead.
+8. **Use ARIA attributes for dynamic content.** Loading states need `aria-busy="true"`. Live updates need `aria-live`. Expanded/collapsed sections need `aria-expanded`.
+9. **Maintain sufficient color contrast.** Use shadcn/ui theme tokens. Do not override colors with values that fail WCAG AA contrast (4.5:1 for text, 3:1 for large text/UI).
+10. **Pages MUST have a single `<h1>` and headings must not skip levels.** Use `<h1>` → `<h2>` → `<h3>` in order.
+11. **Test with keyboard and screen reader.** All pages should be navigable with keyboard alone and produce a logical reading order for screen readers.
 
 ### Styling
 
