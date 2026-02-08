@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import {
   ClerkProvider,
   SignInButton,
@@ -8,6 +9,9 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { Dumbbell } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,24 +40,34 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <header className="flex justify-end gap-4 p-4">
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button className="cursor-pointer rounded-lg bg-gradient-to-r from-gray-100 to-gray-200 px-5 py-2.5 font-medium text-gray-800 shadow-sm transition-all duration-300 hover:from-gray-200 hover:to-gray-300 hover:shadow-md dark:from-gray-800 dark:to-gray-700 dark:text-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600">
-                  Sign In
-                </button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <button className="cursor-pointer rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-5 py-2.5 font-medium text-white shadow-md transition-all duration-300 hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400 hover:shadow-lg hover:shadow-purple-500/25">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+          <header className="border-b">
+            <nav aria-label="Main navigation" className="mx-auto flex max-w-4xl items-center justify-between px-6 py-3">
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-2 font-bold text-lg"
+              >
+                <Dumbbell className="size-5" aria-hidden="true" />
+                GymDiary
+              </Link>
+              <div className="flex items-center gap-3">
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <Button variant="ghost">Sign In</Button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <Button>Sign Up</Button>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </div>
+            </nav>
           </header>
-          {children}
+          <Separator />
+          <main>
+            {children}
+          </main>
         </body>
       </html>
     </ClerkProvider>
