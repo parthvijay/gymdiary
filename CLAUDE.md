@@ -65,6 +65,22 @@ Uses **Clerk** (`@clerk/nextjs`) for authentication:
 - Every query MUST filter by `userId` — a user can ONLY access their own data
 - See `docs/data-fetching.md` for full data fetching standards
 
+## Git Workflow
+
+**NEVER push directly to `main`.** Always:
+
+1. Create a branch from `main` with a relevant prefix: `feature/`, `fix/`, `docs/`, `refactor/`, `chore/`
+2. Commit and push to that branch
+3. Open a PR to merge into `main`
+
+**Commits** must use **Conventional Commits** (`conventionalcommits.org`):
+
+- Format: `<type>(<optional scope>): <description>`
+- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`, `ci`, `build`
+- Use lowercase, imperative mood, no period at the end
+- Add a body for non-trivial changes explaining the "why"
+- Examples: `feat: add workout logging page`, `fix(auth): handle expired session redirect`
+
 ## Accessibility (MANDATORY)
 
 Every component and page MUST be fully accessible. See `docs/ui.md` for complete accessibility rules — they are non-negotiable.
