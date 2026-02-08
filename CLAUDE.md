@@ -44,9 +44,20 @@ Uses **Clerk** (`@clerk/nextjs`) for authentication:
 - Module resolution: bundler (optimized for Next.js)
 - Incremental compilation enabled for faster builds
 
+## UI Components
+
+- **ONLY use shadcn/ui components** — no custom UI components, no third-party UI libraries
+- Install components via `npx shadcn@latest add <component>`
+- Do not modify generated files in `src/components/ui/`
+- See `docs/ui.md` for full UI coding standards
+
 **Styling:**
 
 - Tailwind CSS with PostCSS
 - Global CSS variables in `globals.css` for theming
 - Light/dark mode via `prefers-color-scheme`
 - Geist font family (sans and mono)
+
+## Accessibility (MANDATORY)
+
+Every component and page MUST be fully accessible. See `docs/ui.md` for complete accessibility rules — they are non-negotiable.
