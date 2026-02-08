@@ -58,6 +58,13 @@ Uses **Clerk** (`@clerk/nextjs`) for authentication:
 - Light/dark mode via `prefers-color-scheme`
 - Geist font family (sans and mono)
 
+## Data Fetching (CRITICAL)
+
+- **ALL data fetching MUST happen in Server Components** — no Route Handlers, no client-side fetching
+- Database queries MUST use helper functions in `src/data/` with **Drizzle ORM** (no raw SQL)
+- Every query MUST filter by `userId` — a user can ONLY access their own data
+- See `docs/data-fetching.md` for full data fetching standards
+
 ## Accessibility (MANDATORY)
 
 Every component and page MUST be fully accessible. See `docs/ui.md` for complete accessibility rules — they are non-negotiable.

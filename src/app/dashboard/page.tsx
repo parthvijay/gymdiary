@@ -1,12 +1,9 @@
-"use client";
-
-import { useState } from "react";
-import { CalendarIcon, Dumbbell, Plus } from "lucide-react";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 import { format } from "date-fns";
+import { Dumbbell, Plus } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -16,95 +13,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { getWorkoutsByDate, type WorkoutWithDetails } from "@/data/workouts";
+import { DashboardDatePicker } from "./_components/date-picker";
 
-interface Set {
-  id: string;
-  setNumber: number;
-  reps: number | null;
-  weight: string | null;
-}
-
-interface WorkoutExercise {
-  id: string;
-  exerciseName: string;
-  order: number;
-  sets: Set[];
-}
-
-interface Workout {
-  id: string;
-  name: string | null;
-  date: string;
-  startedAt: string | null;
-  completedAt: string | null;
-  exercises: WorkoutExercise[];
-}
-
-const MOCK_WORKOUTS: Workout[] = [
-  {
-    id: "1",
-    name: "Morning Push Day",
-    date: new Date().toISOString(),
-    startedAt: new Date(new Date().setHours(7, 0, 0, 0)).toISOString(),
-    completedAt: new Date(new Date().setHours(8, 15, 0, 0)).toISOString(),
-    exercises: [
-      {
-        id: "e1",
-        exerciseName: "Bench Press",
-        order: 0,
-        sets: [
-          { id: "s1", setNumber: 1, reps: 10, weight: "135" },
-          { id: "s2", setNumber: 2, reps: 8, weight: "155" },
-          { id: "s3", setNumber: 3, reps: 6, weight: "175" },
-        ],
-      },
-      {
-        id: "e2",
-        exerciseName: "Overhead Press",
-        order: 1,
-        sets: [
-          { id: "s4", setNumber: 1, reps: 10, weight: "65" },
-          { id: "s5", setNumber: 2, reps: 8, weight: "75" },
-          { id: "s6", setNumber: 3, reps: 8, weight: "75" },
-        ],
-      },
-      {
-        id: "e3",
-        exerciseName: "Tricep Pushdown",
-        order: 2,
-        sets: [
-          { id: "s7", setNumber: 1, reps: 12, weight: "40" },
-          { id: "s8", setNumber: 2, reps: 12, weight: "40" },
-          { id: "s9", setNumber: 3, reps: 10, weight: "45" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "2",
-    name: "Evening Cardio",
-    date: new Date().toISOString(),
-    startedAt: new Date(new Date().setHours(18, 0, 0, 0)).toISOString(),
-    completedAt: null,
-    exercises: [
-      {
-        id: "e4",
-        exerciseName: "Treadmill Run",
-        order: 0,
-        sets: [{ id: "s10", setNumber: 1, reps: null, weight: null }],
-      },
-    ],
-  },
-];
-
-function WorkoutCard({ workout }: { workout: Workout }) {
-  const totalSets = workout.exercises.reduce(
-    (sum, ex) => sum + ex.sets.length,
+function WorkoutCard({ workout }: { workout: WorkoutWithDetails }) {
+  const totalSets = workout.workoutExercises.reduce(
+    (sum, we) => sum + we.sets.length,
     0
   );
   const workoutName = workout.name ?? "Untitled Workout";
@@ -122,29 +36,25 @@ function WorkoutCard({ workout }: { workout: Workout }) {
             )}
           </div>
           <CardDescription>
-            {workout.startedAt &&
-              format(new Date(workout.startedAt), "h:mm a")}
+            {workout.startedAt && format(workout.startedAt, "h:mm a")}
             {workout.startedAt && workout.completedAt && " – "}
-            {workout.completedAt &&
-              format(new Date(workout.completedAt), "h:mm a")}
+            {workout.completedAt && format(workout.completedAt, "h:mm a")}
             {!workout.startedAt && !workout.completedAt && "Not started"}
             {" · "}
-            {workout.exercises.length}{" "}
-            {workout.exercises.length === 1 ? "exercise" : "exercises"}
+            {workout.workoutExercises.length}{" "}
+            {workout.workoutExercises.length === 1 ? "exercise" : "exercises"}
             {" · "}
             {totalSets} {totalSets === 1 ? "set" : "sets"}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          {workout.exercises.map((exercise, index) => (
-            <section key={exercise.id} aria-label={exercise.exerciseName}>
+          {workout.workoutExercises.map((we, index) => (
+            <section key={we.id} aria-label={we.exercise.name}>
               {index > 0 && <Separator className="mb-4" />}
-              <h3 className="mb-2 text-sm font-medium">
-                {exercise.exerciseName}
-              </h3>
+              <h3 className="mb-2 text-sm font-medium">{we.exercise.name}</h3>
               <table
                 className="w-full text-sm"
-                aria-label={`Sets for ${exercise.exerciseName}`}
+                aria-label={`Sets for ${we.exercise.name}`}
               >
                 <thead>
                   <tr className="text-muted-foreground text-xs font-medium">
@@ -154,7 +64,7 @@ function WorkoutCard({ workout }: { workout: Workout }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {exercise.sets.map((set) => (
+                  {we.sets.map((set) => (
                     <tr key={set.id}>
                       <td className="py-1">{set.setNumber}</td>
                       <td className="py-1">{set.reps ?? "–"}</td>
@@ -171,11 +81,22 @@ function WorkoutCard({ workout }: { workout: Workout }) {
   );
 }
 
-export default function DashboardPage() {
-  const [date, setDate] = useState<Date>(new Date());
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string }>;
+}) {
+  const { userId } = await auth();
+  if (!userId) redirect("/sign-in");
 
-  // TODO: replace with actual data fetching based on `date`
-  const workouts = MOCK_WORKOUTS;
+  const params = await searchParams;
+  const today = format(new Date(), "yyyy-MM-dd");
+  const dateParam = params.date ?? today;
+  const parsed = new Date(dateParam + "T00:00:00");
+  const dateString = isNaN(parsed.getTime()) ? today : dateParam;
+  const displayDate = isNaN(parsed.getTime()) ? new Date() : parsed;
+
+  const workouts = await getWorkoutsByDate(userId, dateString);
 
   return (
     <div className="mx-auto max-w-4xl p-6">
@@ -186,40 +107,22 @@ export default function DashboardPage() {
             <Plus aria-hidden="true" />
             New Workout
           </Button>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-[240px] justify-start text-left font-normal",
-                  !date && "text-muted-foreground"
-                )}
-                aria-label="Pick a date"
-              >
-                <CalendarIcon aria-hidden="true" />
-                {format(date, "PPP")}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="end">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={(day) => day && setDate(day)}
-              />
-            </PopoverContent>
-          </Popover>
+          <DashboardDatePicker date={displayDate} />
         </div>
       </div>
 
       <section aria-label="Workouts list" className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">
-          Workouts for {format(date, "MMMM d, yyyy")}
+          Workouts for {format(displayDate, "MMMM d, yyyy")}
         </h2>
 
         {workouts.length === 0 ? (
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-12">
-              <Dumbbell className="text-muted-foreground mb-3 size-10" aria-hidden="true" />
+              <Dumbbell
+                className="text-muted-foreground mb-3 size-10"
+                aria-hidden="true"
+              />
               <p className="text-muted-foreground text-sm">
                 No workouts logged for this date.
               </p>
