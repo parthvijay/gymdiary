@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { format } from "date-fns";
 import { Dumbbell, Plus } from "lucide-react";
@@ -103,9 +104,11 @@ export default async function DashboardPage({
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <div className="flex items-center gap-2">
-          <Button>
-            <Plus aria-hidden="true" />
-            New Workout
+          <Button asChild>
+            <Link href="/dashboard/workout/new">
+              <Plus aria-hidden="true" />
+              New Workout
+            </Link>
           </Button>
           <DashboardDatePicker date={displayDate} />
         </div>
