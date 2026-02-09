@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Before Writing Any Code
+
+**ALWAYS read the relevant documentation in `docs/` BEFORE implementing anything.** These documents define the project's patterns, conventions, and mandatory standards. Code that ignores them will need to be rewritten.
+
+| Document | Covers |
+|---|---|
+| `docs/auth.md` | Authentication — Clerk setup, server-side auth, client components, protected pages |
+| `docs/data-fetching.md` | Data fetching — Server Components, data helpers, user data isolation |
+| `docs/data-mutations.md` | Data mutations — Server Actions, Zod validation, typed params, data helpers |
+| `docs/ui.md` | UI components — shadcn/ui only, accessibility rules, styling |
+
 ## Build & Development Commands
 
 - `npm run dev` - Start development server
@@ -31,10 +42,11 @@ This is a Next.js 16 application using the **App Router** (not Pages Router).
 Uses **Clerk** (`@clerk/nextjs`) for authentication:
 
 - `ClerkProvider` wraps the app in `layout.tsx`
-- `clerkMiddleware()` in `src/middleware.ts` handles auth
+- `clerkMiddleware()` in `src/proxy.ts` handles auth (Next.js 16 convention)
 - Components: `SignInButton`, `SignUpButton`, `UserButton`, `SignedIn`, `SignedOut`
 - Server-side auth: import `auth()` from `@clerk/nextjs/server` (use async/await)
 - Environment variables in `.env.local`: `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`
+- See `docs/auth.md` for full authentication coding standards
 
 ## TypeScript Configuration
 
@@ -64,6 +76,14 @@ Uses **Clerk** (`@clerk/nextjs`) for authentication:
 - Database queries MUST use helper functions in `src/data/` with **Drizzle ORM** (no raw SQL)
 - Every query MUST filter by `userId` — a user can ONLY access their own data
 - See `docs/data-fetching.md` for full data fetching standards
+
+## Data Mutations (CRITICAL)
+
+- **ALL data mutations MUST be done via Server Actions** in colocated `actions.ts` files
+- Mutations MUST call helper functions in `src/data/` — never use `db` directly in actions
+- Server Action parameters MUST be typed — do NOT use `FormData`
+- ALL Server Actions MUST validate arguments with **Zod** (`safeParse`)
+- See `docs/data-mutations.md` for full data mutation standards
 
 ## Git Workflow
 
