@@ -33,6 +33,16 @@ Every component and page MUST be fully accessible. These rules are non-negotiabl
 10. **Pages MUST have a single `<h1>` and headings must not skip levels.** Use `<h1>` → `<h2>` → `<h3>` in order.
 11. **Test with keyboard and screen reader.** All pages should be navigable with keyboard alone and produce a logical reading order for screen readers.
 
+### User-Friendliness (MANDATORY)
+
+All UI must be intuitive and self-explanatory. These rules apply to ALL code written in this project:
+
+1. **Clickable items MUST have visual affordance.** If an element navigates or performs an action, it must look interactive. Use icons (e.g., `Pencil` for edit, `Trash` for delete, `ChevronRight` for navigation), hover states, or button styling to signal interactivity.
+2. **Use contextual icons to clarify actions.** Pair actions with recognizable icons from `lucide-react`. An edit card should show a pencil icon, a delete action should show a trash icon, etc.
+3. **Provide hover/focus feedback on interactive cards and list items.** When a card or list item is clickable, add visual feedback (e.g., `hover:shadow-md`, `hover:border-primary`, `transition-shadow`) so users understand it is interactive.
+4. **Empty states MUST guide the user.** When a list is empty, show a helpful message and a call-to-action (e.g., a button to create the first item).
+5. **Destructive actions MUST require confirmation.** Use a `Dialog` or `AlertDialog` from shadcn/ui before deleting or performing irreversible actions.
+
 ### Styling
 
 - Use **Tailwind CSS** utility classes for layout, spacing, and any style adjustments.
