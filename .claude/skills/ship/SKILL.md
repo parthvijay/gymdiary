@@ -1,3 +1,8 @@
+---
+name: Ship
+description: Stage, commit, push, and create a PR for current changes
+---
+
 # Ship Workflow
 1. Stage all changes with `git add .`
 2. Create a conventional commit (feat:/fix:/docs:/chore:) with a descriptive message
