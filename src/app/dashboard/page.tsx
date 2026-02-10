@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { format } from "date-fns";
-import { Dumbbell, Plus } from "lucide-react";
+import { Dumbbell, Pencil, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,11 +30,14 @@ function WorkoutCard({ workout }: { workout: WorkoutWithDetails }) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>{workoutName}</CardTitle>
-            {workout.completedAt ? (
-              <Badge variant="default">Completed</Badge>
-            ) : (
-              <Badge variant="secondary">In Progress</Badge>
-            )}
+            <div className="flex items-center gap-2">
+              {workout.completedAt ? (
+                <Badge variant="default">Completed</Badge>
+              ) : (
+                <Badge variant="secondary">In Progress</Badge>
+              )}
+              <Pencil className="text-muted-foreground size-4" aria-hidden="true" />
+            </div>
           </div>
           <CardDescription>
             {workout.startedAt && format(workout.startedAt, "h:mm a")}
@@ -133,7 +136,9 @@ export default async function DashboardPage({
           </Card>
         ) : (
           workouts.map((workout) => (
-            <WorkoutCard key={workout.id} workout={workout} />
+            <Link key={workout.id} href={`/dashboard/workout/${workout.id}`}>
+              <WorkoutCard workout={workout} />
+            </Link>
           ))
         )}
       </section>
