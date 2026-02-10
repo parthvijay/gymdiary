@@ -1,3 +1,7 @@
+---
+description: "UI coding standards — shadcn/ui only, accessibility rules, Tailwind styling, component composition. Use when building or modifying any UI."
+---
+
 # UI Coding Standards
 
 ## Component Library: shadcn/ui Only

@@ -1,3 +1,7 @@
+---
+description: "Data mutation standards — Server Actions in colocated actions.ts, Zod validation, typed params, data helpers. Use when writing/updating/deleting data or creating forms that submit to the server."
+---
+
 # Data Mutation Standards
 
 ## Server Actions Only
@@ -204,7 +208,7 @@ export async function someAction(params: { /* ... */ }) {
 
 - Call `auth()` at the top of every Server Action. Do NOT skip this.
 - Redirect unauthenticated users — do NOT return an error for missing auth.
-- Pass `userId` to all data helper functions. See `docs/data-fetching.md` for data isolation rules.
+- Pass `userId` to all data helper functions. See the data-fetching skill for data isolation rules.
 
 ## Full Example
 

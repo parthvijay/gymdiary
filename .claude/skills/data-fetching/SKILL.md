@@ -1,3 +1,7 @@
+---
+description: "Data fetching standards — Server Components only, Drizzle ORM helpers in src/data/, user data isolation. Use when reading data from database or rendering user-specific content."
+---
+
 # Data Fetching Standards
 
 ## Server Components Only
