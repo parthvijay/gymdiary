@@ -5,7 +5,7 @@ import { NewWorkoutForm } from "./_components/new-workout-form";
 
 export default async function NewWorkoutPage() {
   const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
+  if (!userId) redirect("/");
 
   return (
     <div className="mx-auto max-w-4xl p-6">

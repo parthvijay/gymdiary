@@ -1,69 +1,75 @@
-import Image from "next/image";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import { Dumbbell, Calendar, TrendingUp, ListChecks } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   const { userId } = await auth();
   if (userId) redirect("/dashboard");
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between bg-white px-16 py-32 sm:items-start dark:bg-black">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl leading-10 font-semibold tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
+      <div className="mx-auto max-w-4xl px-6 py-12 text-center">
+        <div className="mb-8 flex justify-center">
+          <div className="bg-primary/10 flex size-20 items-center justify-center rounded-full">
+            <Dumbbell className="text-primary size-10" aria-hidden="true" />
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="bg-foreground text-background flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 transition-colors hover:bg-[#383838] md:w-[158px] dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
+          Track Your Fitness Journey
+        </h1>
+        <p className="text-muted-foreground mx-auto mb-8 max-w-2xl text-lg md:text-xl">
+          GymDiary helps you log workouts, track progress, and stay motivated.
+          Start your fitness journey today with our simple and intuitive workout tracker.
+        </p>
+
+        <div className="mb-12 flex flex-wrap justify-center gap-4">
+          <SignUpButton mode="modal">
+            <Button size="lg" className="text-base">
+              Get Started
+            </Button>
+          </SignUpButton>
+          <SignInButton mode="modal">
+            <Button size="lg" variant="outline" className="text-base">
+              Sign In
+            </Button>
+          </SignInButton>
         </div>
-      </main>
+
+        <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-3">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <div className="bg-primary/10 mb-2 flex size-12 items-center justify-center rounded-lg">
+              <Calendar className="text-primary size-6" aria-hidden="true" />
+            </div>
+            <h2 className="font-semibold">Daily Tracking</h2>
+            <p className="text-muted-foreground text-sm">
+              Log your workouts by date and view your training history
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center gap-2 text-center">
+            <div className="bg-primary/10 mb-2 flex size-12 items-center justify-center rounded-lg">
+              <ListChecks className="text-primary size-6" aria-hidden="true" />
+            </div>
+            <h2 className="font-semibold">Exercise Details</h2>
+            <p className="text-muted-foreground text-sm">
+              Track sets, reps, and weight for each exercise
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center gap-2 text-center">
+            <div className="bg-primary/10 mb-2 flex size-12 items-center justify-center rounded-lg">
+              <TrendingUp className="text-primary size-6" aria-hidden="true" />
+            </div>
+            <h2 className="font-semibold">Monitor Progress</h2>
+            <p className="text-muted-foreground text-sm">
+              See your improvements over time and stay motivated
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
