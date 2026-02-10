@@ -45,6 +45,8 @@ Standards for auth, data fetching, data mutations, and UI are available as skill
 2. Commit and push to that branch
 3. Open a PR to merge into `main`
 
+**One PR per context.** Don't mix unrelated changes in a single PR. If a task involves distinct concerns (e.g., config changes and feature work), split them into separate branches and PRs.
+
 **Commits** must use **Conventional Commits** (`conventionalcommits.org`):
 
 - Format: `<type>(<optional scope>): <description>`
