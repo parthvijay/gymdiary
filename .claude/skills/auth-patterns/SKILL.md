@@ -1,3 +1,7 @@
+---
+description: "Authentication patterns with Clerk — server-side auth, client components, protected pages, middleware setup. Use when implementing auth flows, protecting pages, or working with user sessions."
+---
+
 # Authentication Standards
 
 ## Provider: Clerk Only
@@ -53,7 +57,7 @@ export default async function ProtectedPage() {
 
 1. **Always `await` the `auth()` call.** It is async in `@clerk/nextjs/server`.
 2. **Always check for `userId` before proceeding.** If `userId` is `null`, the user is not authenticated — redirect them.
-3. **Pass `userId` to all data helper functions.** Never query data without scoping to the authenticated user. See `docs/data-fetching.md` for details.
+3. **Pass `userId` to all data helper functions.** Never query data without scoping to the authenticated user. See the data-fetching skill for details.
 4. **Do NOT use `auth()` in Client Components.** It is a server-only function. Client Components receive user data via props or Clerk's client-side components.
 
 ## Client-Side Auth Components
