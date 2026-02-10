@@ -88,7 +88,7 @@ export default async function DashboardPage({
   searchParams: Promise<{ date?: string }>;
 }) {
   const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
+  if (!userId) redirect("/");
 
   const params = await searchParams;
   const today = format(new Date(), "yyyy-MM-dd");
