@@ -64,6 +64,10 @@ export function NewWorkoutForm() {
               placeholder="e.g. Upper Body, Leg Day"
               aria-describedby={errors.name ? "name-error" : undefined}
               aria-invalid={errors.name ? true : undefined}
+              onChange={() =>
+                errors.name &&
+                setErrors((prev) => ({ ...prev, name: undefined }))
+              }
             />
             <datalist id="workout-name-suggestions">
               <option value="Upper Body" />
