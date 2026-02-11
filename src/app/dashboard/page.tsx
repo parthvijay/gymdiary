@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+
 import { Separator } from "@/components/ui/separator";
 import { getWorkoutsByDate, type WorkoutWithDetails } from "@/data/workouts";
 import { DashboardDatePicker } from "./_components/date-picker";
@@ -30,21 +30,9 @@ function WorkoutCard({ workout }: { workout: WorkoutWithDetails }) {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>{workoutName}</CardTitle>
-            <div className="flex items-center gap-2">
-              {workout.completedAt ? (
-                <Badge variant="default">Completed</Badge>
-              ) : (
-                <Badge variant="secondary">In Progress</Badge>
-              )}
-              <Pencil className="text-muted-foreground size-4" aria-hidden="true" />
-            </div>
+            <Pencil className="text-muted-foreground size-4" aria-hidden="true" />
           </div>
           <CardDescription>
-            {workout.startedAt && format(workout.startedAt, "h:mm a")}
-            {workout.startedAt && workout.completedAt && " – "}
-            {workout.completedAt && format(workout.completedAt, "h:mm a")}
-            {!workout.startedAt && !workout.completedAt && "Not started"}
-            {" · "}
             {workout.workoutExercises.length}{" "}
             {workout.workoutExercises.length === 1 ? "exercise" : "exercises"}
             {" · "}

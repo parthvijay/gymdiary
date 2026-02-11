@@ -17,6 +17,6 @@ export async function createWorkoutAction(params: {
     return { error: parsed.error.flatten().fieldErrors };
   }
 
-  await createWorkout(userId, parsed.data);
-  redirect(`/dashboard?date=${parsed.data.date}`);
+  const workout = await createWorkout(userId, parsed.data);
+  redirect(`/dashboard/workout/${workout.id}`);
 }

@@ -60,10 +60,24 @@ export function NewWorkoutForm() {
             <Input
               id="name"
               name="name"
+              list="workout-name-suggestions"
               placeholder="e.g. Upper Body, Leg Day"
               aria-describedby={errors.name ? "name-error" : undefined}
               aria-invalid={errors.name ? true : undefined}
             />
+            <datalist id="workout-name-suggestions">
+              <option value="Upper Body" />
+              <option value="Lower Body" />
+              <option value="Push" />
+              <option value="Pull" />
+              <option value="Leg Day" />
+              <option value="Chest & Triceps" />
+              <option value="Back & Biceps" />
+              <option value="Shoulders & Arms" />
+              <option value="Full Body" />
+              <option value="Cardio" />
+              <option value="Core" />
+            </datalist>
             {errors.name && (
               <p id="name-error" className="text-destructive text-sm">
                 {errors.name[0]}
